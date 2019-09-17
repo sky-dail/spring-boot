@@ -1,11 +1,11 @@
 /*
- * Copyright 2012-2018 the original author or authors.
+ * Copyright 2012-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,29 +30,30 @@ public enum WebApplicationType {
 	/**
 	 * The application should not run as a web application and should not start an
 	 * embedded web server.
+	 * 非内嵌的web应用
 	 */
 	NONE,
 
 	/**
 	 * The application should run as a servlet-based web application and should start an
 	 * embedded servlet web server.
+	 * 内嵌的servlet web 应用 例如spring mvc
 	 */
 	SERVLET,
 
 	/**
 	 * The application should run as a reactive web application and should start an
 	 * embedded reactive web server.
+	 * 内嵌的Reactive web 应用，例如 spring webflux
 	 */
 	REACTIVE;
 
 	private static final String[] SERVLET_INDICATOR_CLASSES = { "javax.servlet.Servlet",
 			"org.springframework.web.context.ConfigurableWebApplicationContext" };
 
-	private static final String WEBMVC_INDICATOR_CLASS = "org.springframework."
-			+ "web.servlet.DispatcherServlet";
+	private static final String WEBMVC_INDICATOR_CLASS = "org.springframework." + "web.servlet.DispatcherServlet";
 
-	private static final String WEBFLUX_INDICATOR_CLASS = "org."
-			+ "springframework.web.reactive.DispatcherHandler";
+	private static final String WEBFLUX_INDICATOR_CLASS = "org." + "springframework.web.reactive.DispatcherHandler";
 
 	private static final String JERSEY_INDICATOR_CLASS = "org.glassfish.jersey.servlet.ServletContainer";
 
@@ -61,8 +62,7 @@ public enum WebApplicationType {
 	private static final String REACTIVE_APPLICATION_CONTEXT_CLASS = "org.springframework.boot.web.reactive.context.ReactiveWebApplicationContext";
 
 	static WebApplicationType deduceFromClasspath() {
-		if (ClassUtils.isPresent(WEBFLUX_INDICATOR_CLASS, null)
-				&& !ClassUtils.isPresent(WEBMVC_INDICATOR_CLASS, null)
+		if (ClassUtils.isPresent(WEBFLUX_INDICATOR_CLASS, null) && !ClassUtils.isPresent(WEBMVC_INDICATOR_CLASS, null)
 				&& !ClassUtils.isPresent(JERSEY_INDICATOR_CLASS, null)) {
 			return WebApplicationType.REACTIVE;
 		}
@@ -74,8 +74,7 @@ public enum WebApplicationType {
 		return WebApplicationType.SERVLET;
 	}
 
-	static WebApplicationType deduceFromApplicationContext(
-			Class<?> applicationContextClass) {
+	static WebApplicationType deduceFromApplicationContext(Class<?> applicationContextClass) {
 		if (isAssignable(SERVLET_APPLICATION_CONTEXT_CLASS, applicationContextClass)) {
 			return WebApplicationType.SERVLET;
 		}
